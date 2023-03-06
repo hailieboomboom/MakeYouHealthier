@@ -1,0 +1,200 @@
+<%- include('../partials/head_tag') %>
+
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>General Info</title>
+
+<script src='https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js'></script>
+
+<%- include('../partials/navbar') %>
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>What is Obesity?</h2>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li>General Info</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- causes-->
+  <section class="causes">
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 d-flex align-items-stretch one-cat-left">
+          <!--                    <div class="col-md-2 d-flex align-items-stretch color-block-white">test</div>-->
+          <div class="col-md-5 d-flex align-items-stretch">
+            <img src="/assets/img/causes.png" class="obese-img center-block">
+          </div>
+          <div class="col-md-7 d-flex align-items-stretch mt-4 mt-lg-0 one-cat-right">
+            <div class="icon-box" data-aos-delay="200">
+              <br><br>
+              <h3 align="center" style="font-weight: bold">Cause of Obesity</h3>
+              <br>
+              <p align="center">The fundamental cause of obesity and overweight is an energy imbalance between calories consumed and calories expanded.However, the real causes are more complicated. Understanding the causes better can help you fight obesity.</p>
+              <div class="text-center mt-4">
+                <a class="round-green-button px-5" href="/obese-info-cause" style="alignment: center; color: white">Learn More</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 d-flex align-items-stretch one-cat-left">
+          <div class="col-md-7 d-flex align-items-stretch mt-4 mt-lg-0 one-cat-right">
+            <div class="icon-box" data-aos-delay="200">
+              <br><br>
+              <h3 align="center" style="font-weight: bold">Impacts from Obesity</h3>
+
+              <p align="center">
+                Being in a state of obesity for a long term could bring damage to different aspects. Both physical and mental health can be heavily impacted. In addition to this, there is an impact on social and economic aspects of life which are often ignored.
+              </p>
+              <div class="text-center mt-4">
+                <a class="round-green-button px-5" href="/obese-info-effect" style="alignment: center; color: white">Learn More</a>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-5 d-flex align-items-stretch">
+            <img src="/assets/img/effect.png" class="obese-img center-block">
+          </div>
+        </div>
+
+        <div class="col-md-12 d-flex align-items-stretch one-cat-left">
+          <!--                    <div class="col-md-2 d-flex align-items-stretch color-block-white">test</div>-->
+          <div class="col-md-5 d-flex align-items-stretch">
+            <img src="/assets/img/treatment.png" class="obese-img center-block">
+          </div>
+          <div class="col-md-7 d-flex align-items-stretch mt-4 mt-lg-0 one-cat-right">
+            <div class="icon-box" data-aos-delay="200">
+              <br><br>
+              <h3 align="center" style="font-weight: bold">Pathway to Recovery</h3>
+              <br>
+              <p align="center">Pathway to recovery is made for each individual. Your plan will
+                likely not be the same as for others sitting in the waiting room.
+                But early treatment is best for everyone.
+              </p>
+              <div class="text-center mt-4">
+                <a class="round-green-button px-5" href="/obese-info-treatment" style="alignment: center; color: white">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======= About Section ======= -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="row content">
+        <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+          <h2>Trends in Australia</h2>
+        </div>
+        <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-left" data-aos-delay="200">
+          <p id="font-onetwo">
+            Let's check the obesity trends in 2017-2018
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End About Section -->
+
+  <!-- Data visual -->
+  <section>
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-6">
+          <canvas id="overall_chart" width="200" height="200"></canvas>
+        </div>
+        <div class="col-md-6 icon-boxes vertical-center">
+          <div class="icon-box mt-4 mt-xl-0 noHover">
+            <h1>Overall trends</h1>
+            <ul class='text-start'>
+              <li>The young group has the highest physical fitness, the number of normal-sized people aged 65 and over have the lowest, and obesity is the highest.</li>
+              <li>The number of people with normal BMI gradually decreases when people are older.</li>
+              <li>The number of people with obesity gradually increases when people are older.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6 icon-boxes vertical-center">
+          <div class="icon-box mt-4 mt-xl-0 noHover">
+            <h1>Male</h1>
+            <ul class='text-start'>
+              <li>Males suffering from obesity have maintained a high proportion since the age of 18, and the high proportion has not changed much when people are older.</li>
+              <li>Men have relatively low awareness of their body shape.</li>
+              <li>Men have more visceral fat accumulation, resulting in a typical obeset body, which is hard to lose.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <canvas id="male_chart" width="200" height="200"></canvas>
+        </div>
+
+        <div class="col-md-6">
+          <canvas id="female_chart" width="200" height="200"></canvas>
+        </div>
+        <div class="col-md-6 icon-boxes vertical-center">
+          <div class="icon-box mt-4 mt-xl-0 noHover">
+            <h1>Female</h1>
+            <ul class='text-start'>
+              <li>According to the chart, we can see that the proportion of obese women increases when they're older.</li>
+              <li>Female are less likely to get overweight than male.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Motivation -->
+  <section>
+    <div class="container icon-boxes">
+      <div class="row icon-box">
+        <div class="col-lg-4 vertical-center">
+          <div class="mt-4 mt-xl-0">
+            <h1>Still don't want to lose weight?</h1>
+            <h4 class='mb-4'>Let find some motivation</h4>
+            <a href="/motivation" class="round-green-button px-5">Find motivation</a>
+          </div>
+        </div>
+        <div class="col-md-1 vertical-center justify-content-center mt-4 mb-4">
+          <h1 align='center'>OR</h1>
+        </div>
+        <div class="col-md-7 vertical-center justify-content-center">
+          <div class="mt-4 mt-xl-0">
+            <h1>Go to our main features</h1>
+            <div class="row">
+              <div class='col-lg-6 mt-4 mb-4'>
+                <form method="POST" action="/show-report" id='myform-diet'>
+                  <a onclick="document.getElementById('myform-diet').submit(); return false;" class="round-green-button" href="/show-report">Diet Recommendation</a>
+                </form>
+              </div>
+              <div class='col-lg-6 mt-4 mb-4'>
+                <form method="POST" action="/show-map" id='myform-map'>
+                  <a onclick="document.getElementById('myform-map').submit(); return false;" class="round-green-button" href='/show-map'>Exercise Location</a>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script src='js/chart_data.js'></script>
+<%- include('../partials/footer') %>

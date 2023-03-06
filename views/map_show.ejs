@@ -1,0 +1,323 @@
+<%- include('partials/head_tag') %>
+<title>Exercise Recommendation</title>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css' rel='stylesheet' />
+<link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" rel="stylesheet" type="text/css">
+
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+
+<!-- Slideer animation -->
+<script src="https://unpkg.com/scrollreveal"></script>
+
+<link href="assets/img/Map-Marker-Push-Pin-2-Chartreuse-icon" rel="Map-Marker-Push-Pin-2-Chartreuse-icon">
+
+<!-- Geocoder plugin -->
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
+
+<!-- Turf.js plugin -->
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+<!-- custom css -->
+<link href="/css/biyang.css" rel="stylesheet" />
+
+<%- include('partials/navbar') %>
+
+<main>
+  <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Finding your Exercise Place</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Exercise Recommendation</li>
+          </ol>
+        </div>
+
+      </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- Map section -->
+  <section class='map'>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 align="center">FIND YOUR FAVOURITE EXERCISE LOCATIONS:</h1>
+          <p class="font-map-info text-center">In order to stay fit, you must exercise the recommended amounts on the fitness recommendation page.</p>
+          <p class="font-map-info text-center">To find the locations you can simply click on the sport you like and enter your postal code or select the locate me button on the map.</p>
+          <p class="font-map-info text-center">To find the route, you can click on any position on the map, or enter the location and click on the Pin or the Sports location centre on the left.</p>
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <h3 class="header-size" align="center">Exercise Recommendation</h3>
+        <div class="col-md-6 contact" id="contact"">
+          <form action="/show-map" method="POST" class="input-data mt-4" id='info-form'>
+            <h3>Your Input:</h3>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label>Height (cm):</label>
+                <input type="number" name="height" min="50" max="280" class="form-control height-input" placeholder="Height" value="<%= user_data.height %>" required>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Weight (kg):</label>
+                <input type="number" name="weight" min="20" max="500" class="form-control weight-input" placeholder="Weight" value="<%= user_data.weight %>" required>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Activity Level:</label>
+                <select class="form-control activity-input form-select" name="activity_level" required>
+                  <option value="" disabled selected>Choose your activity level</option>
+                  <option value="sedentary">Sedentary (little to no exercise + work a desk job)</option>
+                  <option value="lightly">Lightly Active (light exercise 1-3 days / week)</option>
+                  <option value="moderately">Moderately Active (moderate exercise 3-5 days / week)</option>
+                  <option value="very_active">Very Active (heavy exercise 6-7 days / week)</option>
+                  <option value="extremely_active">Extremely Active (very heavy exercise, hard labor job, training 2x / day)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group text-center mt-2">
+              <button type="submit" id="get-report-button">Get Exercise Recommendation</button>
+              <button type="button" id="reset-input">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-6 mt-4">
+          <%
+            let exercise_recommend_list = [];
+            let exercise_recommend_obj = {
+              features: []
+            };
+            exercise_data.forEach(function(element) {
+              exercise_recommend_list.push(element['Activity_Exercise_or_Sport_1_hour'])
+              exercise_recommend_obj.features.push(element);
+            })
+            if (exercise_recommend_list.length == 0) { %>
+              <h4 align='center'>We can't find any recommended exercise. Try to adjust your activity level.</h4>
+            <% } else { %>
+            <table class="table table-bordered" id='exer-recommend'>
+              <tr class='table-header'>
+                <th>Activity Name</th>
+                <th>Energy Burn</th>
+                <th>Hours to lose 1 kg*</th>
+              </tr>
+            </table>
+            <p class='mt-4'>*Hours to lose 1 kg is just an estimation without taking any daily intake into account.</p>
+        </div>
+
+      </div>
+
+
+      <br id="stop-here">
+      <br>
+      <hr/>
+      <!-- Map -->
+      <div class="row">
+
+        <section id="contact" class="contact ltbp-section">
+
+          <div class="container">
+            <div class="row">
+
+              <!-- Checkbox filter -->
+              <div class="col-lg-7 form-group" id='checkbox-sport-list'>
+                <p> Sport list: </p>
+              </div>
+
+              <!-- <div class="col-lg-2 form-group">
+                <label for="searchTerm">Select sport:</label>
+                <select name="sport_type" class="form-control sport_list mb-3 form-select" required>
+                  <option value="" selected>Any Sports</option>
+                </select>
+              </div> -->
+
+              <div class="col-lg-3 form-group">
+                <label for="searchTerm">Enter postal code:</label>
+                <input type="text" id="searchTerm" class="postal-input form-control mb-3" placeholder="e.g. 3000" required>
+              </div>
+
+              <div class="col-lg-2 form-group vertical-center">
+                <button type='submit' class="form-control filter-sport-button round-green-button">Filter results</button>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+
+      <div class="container show-result"></div>
+
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="sidebar">
+            <div class="heading">
+              <h1>Sports locations</h1>
+            </div>
+            <div id="listings" class="listings"></div>
+          </div>
+        </div>
+        <div class="col-lg-9 map-container">
+          <!-- plan for a route -->
+          <div id="map" class="map-container">
+
+          </div>
+        </div>
+      </div>
+      <!-- <p class='mt-4'><strong>Note:</strong> When you click a location on the list, you may notice that the address changes. This is because the facility dataset that we have is quite old and not too details. The new address which we get from API is more details and up-to-date.</p> -->
+    </div>
+    <% } %>
+
+
+  </section>
+
+  <!-- Info section -->
+  <section class="breadcrumbs mb-5 no-top-margin">
+    <div class="container">
+
+      <div class="justify-content-between align-items-center">
+        <h2 style="font-size:60px;" align='center'>Things you need to know about Exercises</h2>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="timeline">
+    <div class="container1 left">
+      <div class="content">
+        <h2>Warm up before the exercises</h2>
+        <p>Warming up before a workout is an important step toward injury prevention. Here is a video to introduce
+          the functionality of warmup</p>
+      </div>
+      <video width="500" height="280" controls preload="none">
+        <source src="assets/warmup.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="container1 right">
+      <div class="content">
+        <h2>Tips for a safe exercise</h2>
+        <p>- Training too hard or fast is a common cause of sports-related injuries. </p>
+        <br>
+        <p>- Consult with your gym instructor, coach, sporting association, exercise physiologist or
+          physiotherapist for instruction on how to exercise safely.</p>
+        <br>
+        <p>- Wear appropriate protective gear and make sure your sporting equipment (including shoes) is well
+          maintained.</p>
+        <br>
+        <p>- Stop exercise immediately if you are injured and seek medical advice before starting exercise again.
+        </p>
+      </div>
+    </div>
+    <div class="container1 left">
+      <div class="content">
+        <h2>Cool down after exercise</h2>
+        <img src="assets/img/cooldown.gif" alt="this slowpoke moves" width="400" class="mb-4"/>
+        <p>After exercise, your blood is heavy in your extremities and your heart rate is usually elevated.
+          The purpose of the cool down is to return your heart rate close to resting.
+          Stopping quickly without a cool down can result in light-headedness, dizziness and/or fainting.</p>
+
+      </div>
+    </div>
+  </div>
+
+</main>
+
+
+<script>
+  mapboxgl.accessToken = '<%- MAP_API %>';
+  let raw_data = <%- JSON.stringify(location_data) %>;
+  const auscode = <%- JSON.stringify(auspcode) %>;
+  let exercise_list_str = '<%= exercise_recommend_list %>';
+  let exercise_list_array = exercise_list_str.toLowerCase().split(',');
+  let exercise_obj = <%- JSON.stringify(exercise_recommend_obj) %>;
+
+  const geo_data = {
+    features: []
+  };
+
+  let sport_l = [];
+  let recommend_list = [];
+  raw_data.features.forEach((val, index) => {
+    let data = val.properties.Sports_Played;
+
+    let split_sport_name = data.split('/');
+    for (let [idx, value] of split_sport_name.entries()) {
+      let sport_name = ""
+      if (value.includes('(')) {
+        sport_name = value.toLowerCase().split('(')[0].trim();
+      // }
+      // else if (value.includes('&')) {
+      //   sport_name = value.trim().toLowerCase().split('&');
+      } else {
+        sport_name = value.toLowerCase().trim();
+      }
+
+      for (let [idx2, value2] of exercise_list_array.entries()) {
+        if(value2.includes(sport_name)) {
+          if(!recommend_list.includes(value2)) {
+            recommend_list.push(value2);
+          }
+          if(!sport_l.includes(sport_name)) {
+            sport_l.push(sport_name);
+          }
+          geo_data.features.push(val);
+          break;
+        }
+      }
+
+      // if(exercise_list_array.some( r => sport_name.includes(r))) {
+      //   console.log(sport_name);
+      //   if(!sport_l.includes(sport_name)) {
+      //     sport_l.push(sport_name);
+      //   }
+      //   geo_data.features.push(val);
+      //   break;
+      // }
+    }
+  })
+
+  sport_l = sport_l.map( a => a.charAt(0).toUpperCase() + a.substr(1) );
+// console.log(sport_l);
+// console.log(recommend_list);
+
+$( document ).ready(function() {
+  exercise_obj.features.forEach((val, index) => {
+    if (recommend_list.includes(val['Activity_Exercise_or_Sport_1_hour'].toLowerCase())) {
+      $('#exer-recommend > tbody:last-child').append(`<tr>
+        <td>${val['Activity_Exercise_or_Sport_1_hour']}</td>
+        <td><strong>${Math.round(val['Calories_per_kg'] * <%= user_data.weight %>)}</strong> calories / hour</td>
+        <td><strong>${Math.round(7700 / Math.round(val['Calories_per_kg'] * <%= user_data.weight %>))}</strong> hours</td>
+      </tr>`);
+    }
+  })
+});
+
+
+
+
+  $("video").prop("volume", 0.1);
+
+  ScrollReveal().reveal('.container1', {
+    distance: '500px',
+    duration: 500,
+    easing: 'ease-out',
+    interval: 100,
+    rotate: {
+      x: 0,
+      y: 0,
+      z: 180
+
+    },
+    cleanup: false,
+  });
+
+</script>
+
+<script src='js/custom-map.js'></script>
+<%- include('partials/footer') %>

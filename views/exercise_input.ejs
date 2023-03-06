@@ -1,0 +1,75 @@
+<%- include('partials/head_tag') %>
+
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Exercise Recommendation</title>
+
+<%- include('partials/navbar') %>
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Input Your Information</h2>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li>Input Your Information</li>
+        </ol>
+      </div>
+
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <section class="inner-page">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-heading text-uppercase">Input your data below</h2>
+      </div>
+      <section id="contact" class="contact">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 d-flex align-items-stretch center-block" data-aos="fade-up">
+              <form action="/show-map" method="POST" class="input-data" id='info-form'>
+                <div class="row text-center justify-content-center">
+                  <div class="form-group col-md-4">
+                    <label>Height (cm):</label>
+                    <input type="number" name="height" min="50" max="280" class="form-control height-input" placeholder="Your Height (cm)" required>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Weight (kg):</label>
+                    <input type="number" name="weight" min="20" max="500" class="form-control weight-input" placeholder="Your Weight (kg)" required>
+                  </div>
+                </div>
+                <div class="row  text-center justify-content-center">
+                  <div class="col-md-8 form-group mt-3 mt-md-0">
+                    <label>Activity Level:</label>
+                    <select name="activity_level" class="form-control activity-input form-select" required>
+                      <option value="" disabled selected>Choose your activity level</option>
+                      <option value="sedentary">Sedentary (little to no exercise + work a desk job)</option>
+                      <option value="lightly">Lightly Active (light exercise 1-3 days / week)</option>
+                      <option value="moderately">Moderately Active (moderate exercise 3-5 days / week)</option>
+                      <option value="very_active">Very Active (heavy exercise 6-7 days / week)</option>
+                      <option value="extremely_active">Extremely Active (very heavy exercise, hard labor job, training 2x / day)</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" id="get-report-button">Get Exercise Recommendation</button>
+                  <input type="reset">
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </section><!-- End Contact Section -->
+
+</main>
+
+
+<%- include('partials/footer') %>

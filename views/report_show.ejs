@@ -1,0 +1,458 @@
+<%- include('partials/head_tag') %>
+
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Diet Recommendation</title>
+
+
+<%- include('partials/navbar') %>
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Your Report</h2>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li>Diet Recommendation</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- Form -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <form action="/show-report" method="POST" class="input-data mt-4" id='info-form'>
+        <h3>Your Input:</h3>
+        <div class="row">
+          <div class="form-group col-md-1">
+            <label>Age:</label>
+            <input type="number" name="age" min="5" max="150" class="form-control age-input" placeholder="Age" value="<%= user_data.age %>" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label>Height (cm):</label>
+            <input type="number" name="height" min="50" max="280" class="form-control height-input" placeholder="Height" value="<%= user_data.height %>" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label>Weight (kg):</label>
+            <input type="number" name="weight" min="20" max="500" class="form-control weight-input" placeholder="Weight" value="<%= user_data.weight %>" required>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label>Gender:</label>
+            <select class="form-control gender-input form-select" name="gender" required>
+              <option value="" disabled selected>Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label>Activity Level:</label>
+            <select class="form-control activity-input form-select" name="activity_level" required>
+              <option value="" disabled selected>Choose your activity level</option>
+              <option value="sedentary">Sedentary (little to no exercise + work a desk job)</option>
+              <option value="lightly">Lightly Active (light exercise 1-3 days / week)</option>
+              <option value="moderately">Moderately Active (moderate exercise 3-5 days / week)</option>
+              <option value="very_active">Very Active (heavy exercise 6-7 days / week)</option>
+              <option value="extremely_active">Extremely Active (very heavy exercise, hard labor job, training 2x / day)</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label>Are You Vegan/Vegetarian:</label>
+            <select name="is_vegan" class="form-control vegan-input form-select" required>
+              <option value="no" selected>I'm non vegetarian</option>
+              <option value="vegan">I'm vegan</option>
+              <option value="vegetarian">I'm vegetarian</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group text-center mt-2">
+          <button type="submit" id="get-report-button">Get Diet Recommendation</button>
+          <button type="button" id="reset-input">Reset</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Exercise Recommendation -->
+  <section id="why-us" class="why-us ltp-section">
+    <div class="container">
+      <div class="row">
+        <!-- User Information -->
+        <div class="col-md-3 col-xs-12 d-flex align-items-stretch" data-aos="fade-right">
+          <div class="content">
+            <h3>Your Information</h3>
+
+            <h4 style="font-size: calc(0.75em + 1vmin)">Age : <%= user_data.age %> year old</h4>
+            <h4 style="font-size: calc(0.75em + 1vmin)">Height : <%= user_data.height %> cm</h4>
+            <h4 style="font-size: calc(0.75em + 1vmin)">Weight : <%= user_data.weight %> kgs</h4>
+            <h4 style="font-size: calc(0.75em + 1vmin)">Gender : <%= user_data.gender %></h4>
+            <h4 style="font-size: calc(0.75em + 1vmin)">Activity Level : <%= user_data.activity_level %></h4>
+            <% if(user_data.is_vegan == 'no') { %>
+              <h4 style="font-size: calc(0.75em + 1vmin)">You're not a vegan/vegetarian.</h4>
+            <% } else { %>
+              <h4 style="font-size: calc(0.75em + 1vmin)">You're <%= user_data.is_vegan %></h4>
+            <% } %>
+
+            <h4>Your <span class='dot-dash-underline' data-bs-toggle="tooltip" data-bs-placement="top"
+                title="Body Mass Index (BMI) is a person’s weight in kilograms divided by the square of height in meters. High BMI may lead to health issues."><strong>BMI</strong></span> is <%= bmi %></h4>
+            <h2>BMI Information</h2>
+            <% if (body_condition == 'Underweight' || body_condition == 'Normal') { %>
+              <p>You're <%= body_condition %>, so we recommend you to have a daily intake equal to your TDEE (you will find this information below) to maintain your weight and do exercises for at least 1 hour 3-5 days per week to stay healthy.</p>
+            <% } else if (body_condition == 'Overweight') { %>
+              <p>You're <%= body_condition %>, so we recommend you to have a daily intake 100-200 calories less than your TDEE (you can find this information below) and do low and medium impact exercises for at least 1 hour 3-5 days per week.</p>
+            <% } else if (body_condition == 'Obesity class 1' || body_condition == 'Obesity class 2' || body_condition == 'Obesity class 3') { %>
+              <p>You're <%= body_condition %>, the number of class indicates how risk prone you are to many serious diseases and health conditions such as High blood pressure (hypertension), Stroke, Low quality of life and Body pain and difficulty with physical
+               functioning.
+                <ul>
+                  <li>1 → low-risk</li>
+                  <li>2 → medium-risk</li>
+                  <li>3 → high-risk</li>
+                </ul>
+                We recommend you to have a daily intake 300-400 calories less than your TDEE (you can find this information below) and do only low impact exercises because you may get injured if you do any exercise that has high impact due to obesity. You should exercise for at least 1 hour 3-5 days per week.</p>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Show figure -->
+        <div class="col-md-9">
+          <div class="row text-center">
+            <%
+            let bmi_range = {
+              "Underweight": 'less than 18.50',
+              "Normal": 'between 18.50–24.99',
+              "Overweight": 'between 25.00–29.99',
+              "Obesity class 1": 'between 30.00–34.99',
+              "Obesity class 2": 'between 35.00–39.99',
+              "Obesity class 3": '40.00 or more'
+            }
+            let body_c = {
+              0: 'Underweight',
+              1: 'Normal',
+              2: 'Overweight',
+              3: 'Obesity class 1',
+              4: 'Obesity class 2',
+              5: 'Obesity class 3'
+            }
+            for (let i = 0; i < 6; i++) { %>
+              <% if (body_c[i] == body_condition) { %>
+                <div class="col-md-4 mt-4 mb-4 selected-border">
+                  <img src="assets/img/body/a<%=i+1%>.png" class="figure-selected mt-4" alt="">
+                  <p><strong>BMI:</strong> <%= bmi_range[body_c[i]] %></p>
+                </div>
+              <% } else { %>
+                <div class="col-md-4 mt-4 mb-4">
+                  <img src="assets/img/body/a<%=i+1%>.png" class="figure-not-selected mt-4" alt="">
+                  <p><strong>BMI:</strong> <%= bmi_range[body_c[i]] %></p>
+                </div>
+              <% } %>
+
+
+            <% } %>
+          </div>
+        </div>
+        <div class="text-center mt-5">
+          <form method="POST" action="/show-map" id='myform-map'>
+            <a onclick="document.getElementById('myform-map').submit(); return false;" class="round-green-button px-5" href='/show-map'>Check out Exercise Location</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Daily Intake ======= -->
+  <section id="counts" class="counts">
+    <div class="container">
+      <div class="row counters">
+
+        <div class="col-lg-3 col-6 text-start">
+          <h3 class="mt-2">Your Recommended Daily Intake: </h3>
+        </div>
+
+        <%
+          // Find TDEE and calorie per meal
+          let TDEE = 0
+          let activity_factors = {
+            "sedentary": 1.2,
+            "lightly": 1.375,
+            "moderately": 1.55,
+            "very_active": 1.725,
+            "extremely_active": 1.9
+          };
+          // Calculate TDEE for male and female
+          if (user_data.gender == "male") {
+            TDEE = (66 + (13.7 * user_data.weight) + (5 * user_data.height) - (6.8 * parseInt(user_data.age))) * activity_factors[activity_level];
+          } else if (user_data.gender == "female") {
+            TDEE = (655 + (9.6 * user_data.weight) + (1.8 * user_data.height) - (4.7 * parseInt(user_data.age))) * activity_factors[activity_level];
+          }
+          TDEE = Math.round(TDEE * 0.8);
+          // Calorie needed per meal
+          let calorie_per_meal = Math.round(TDEE / 3);
+
+          let carb, protein, fat = 0;
+          if (body_condition == 'Obesity class 1' || body_condition == 'Obesity class 2' || body_condition == 'Obesity class 3') {
+              carb = 30; protein = 40; fat = 30;
+          } else if (body_condition == 'Overweight') {
+              carb = 35; protein = 35; fat = 30;
+          } else if (body_condition == 'Normal' || body_condition == 'Underweight') {
+              carb = 40; protein = 30; fat = 30;
+          }
+        %>
+        <div class="col-lg-3 col-6 text-center">
+          <span data-purecounter-start="0" data-purecounter-end="<%= carb %>" data-purecounter-duration="1" class="purecounter" style='display: inline;'></span><span style='display: inline;'> % Carb</span>
+        </div>
+        <div class="col-lg-3 col-6 text-center">
+          <span data-purecounter-start="0" data-purecounter-end="<%= protein %>" data-purecounter-duration="1" class="purecounter" style='display: inline;'></span><span style='display: inline;'> % Protein</span>
+        </div>
+        <div class="col-lg-3 col-6 text-center">
+          <span data-purecounter-start="0" data-purecounter-end="<%= fat %>" data-purecounter-duration="1" class="purecounter" style='display: inline;'></span><span style='display: inline;'> % Fat</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Meal Recommendation -->
+  <section class="ltp-section">
+    <div class="container">
+      <div class="row">
+        <h2 align="center" class='mb-3 mt-3'>Meal Recommendation</h2>
+
+        <h5 align="center">Base on your <span class='dot-dash-underline' data-bs-toggle="tooltip" data-bs-placement="top"
+            title="Total Daily Energy Expenditure (TDEE) is an estimation of how many calories you burn each day which includes physical activity."><strong>TDEE</strong></span> which is <b><%= TDEE %></b> calories. You should eat 3 meals per day with
+          <%= calorie_per_meal %> calories per meal.</h5>
+
+        <h5 align="center">You can cook your own meal using these ingredients or check out our delicious recipes!</h5>
+        <hr>
+        <!-- Calculate nutrition per meal in calorie -->
+        <%
+          carb_per_meal = Math.round(calorie_per_meal * (carb /100));
+          protein_per_meal = Math.round(calorie_per_meal * (protein /100));
+          fat_per_meal = Math.round(calorie_per_meal * (fat /100));
+          let count_each_meal_recipe = {};
+            for (let [index, val] of meal_data.entries()) {
+              let carb_name = val['carb_name']
+              let carb_gram_need = Math.round(carb_per_meal / (val['carb_energy_cal'] / 100))
+              let carb_energy = Math.round(val['carb_energy_cal'] / 100 * carb_gram_need)
+              let carb_protein = Math.round(val['carb_protein_g'] / 100 * carb_gram_need)
+              let carb_fat = Math.round(val['carb_fat_g'] / 100 * carb_gram_need)
+              let carb_carb = Math.round(val['carb_carb_g'] / 100 * carb_gram_need)
+              let protein_name = val['protein_name']
+              let protein_gram_need = Math.round(protein_per_meal / (val['protein_energy_cal'] / 100))
+              let protein_energy = Math.round(val['protein_energy_cal'] / 100 * protein_gram_need)
+              let protein_protein = Math.round(val['protein_protein_g'] / 100 * protein_gram_need)
+              let protein_fat = Math.round(val['protein_fat_g'] / 100 * protein_gram_need)
+              let protein_carb = Math.round(val['protein_carb_g'] / 100 * protein_gram_need)
+              let fruit_name = val['fruit_name']
+              let fruit_energy = val['fruit_energy_cal']
+              let fruit_protein = val['fruit_protein_g']
+              let fruit_fat = val['fruit_fat_g']
+              let fruit_carb = val['fruit_carb_g']
+              let vegetable_name = val['vegetable_name']
+              let vegetable_energy = val['vegetable_energy_cal']
+              let vegetable_protein = val['vegetable_protein_g']
+              let vegetable_fat = val['vegetable_fat_g']
+              let vegetable_carb = val['vegetable_carb_g']
+              let total_energy = carb_energy + protein_energy + fruit_energy + vegetable_energy
+              let total_protein = carb_protein + protein_protein + fruit_protein + vegetable_protein
+              let total_fat = carb_fat + protein_fat + fruit_fat + vegetable_fat
+              let total_carb = carb_carb + protein_carb + fruit_carb + vegetable_carb
+
+              count_each_meal_recipe[val.meal_id] = 0
+        %>
+        <h3>Meal Plan <%= index + 1 %></h3>
+        <div class="col-md-3">
+          <div class="card" data-bs-toggle="tooltip" data-bs-placement="right" style="width: 18rem;">
+            <img src="/assets/img/meal/<%= carb_name %>.jpg" class="card-img-top card-fix-height" alt="...">
+            <div class="overlay">
+              <div class="nutri_info">
+                <h6 style="font-weight: bold"><%= carb_name %> (<%= carb_gram_need %> g)</h6>
+                <h6>Energy <%= carb_energy %> g</h6>
+                <h6>Protein <%= carb_protein %> g</h6>
+                <h6>Fat <%= carb_fat %> g</h6>
+                <h6>Carb <%= carb_carb %> g</h6>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" align='center'><%= carb_name %></h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" data-bs-toggle="tooltip" data-bs-placement="right" style="width: 18rem;">
+            <img src="/assets/img/meal/<%= protein_name %>.jpg" class="card-img-top card-fix-height" alt="...">
+            <div class="overlay">
+              <div class="nutri_info">
+                <h6 style="font-weight: bold"><%= protein_name %> (<%= protein_gram_need %> g)</h6>
+                <h6>Energy <%= protein_energy %> g</h6>
+                <h6>Protein <%= protein_protein %> g</h6>
+                <h6>Fat <%= protein_fat %> g</h6>
+                <h6>Carb <%= protein_carb %> g</h6>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" align='center'><%= protein_name %></h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" data-bs-toggle="tooltip" data-bs-placement="right" style="width: 18rem;">
+            <img src="/assets/img/meal/<%= vegetable_name %>.jpg" class="card-img-top card-fix-height" alt="...">
+            <div class="overlay">
+              <div class="nutri_info">
+                <h6 style="font-weight: bold"><%= vegetable_name %> (100 g)</h6>
+                <h6>Energy <%= vegetable_energy %> g</h6>
+                <h6>Protein <%= vegetable_protein %> g</h6>
+                <h6>Fat <%= vegetable_fat %> g</h6>
+                <h6>Carb <%= vegetable_carb %> g</h6>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" align='center'><%= vegetable_name %></h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" data-bs-toggle="tooltip" data-bs-placement="right" style="width: 18rem;">
+            <img src="/assets/img/meal/<%= fruit_name %>.jpg" class="card-img-top card-fix-height" alt="...">
+            <div class="overlay">
+              <div class="nutri_info">
+                <h6 style="font-weight: bold"><%= fruit_name %> (100 g)</h6>
+                <h6>Energy <%= fruit_energy %> g</h6>
+                <h6>Protein <%= fruit_protein %> g</h6>
+                <h6>Fat <%= fruit_fat %> g</h6>
+                <h6>Carb <%= fruit_carb %> g</h6>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" align='center'><%= fruit_name %></h5>
+            </div>
+          </div>
+        </div>
+        <h5 class="mt-5 mb-4" align="center">Total energy: <%= Math.round(total_energy) %> calories, carb <%= Math.round(total_carb) %> grams, protein <%= Math.round(total_protein) %> grams and fat <%= Math.round(total_fat) %> grams.</h5>
+
+        <!-- ======= Recipe ======= -->
+        <div class="container">
+          <div class="row justify-content-md-center">
+            <div class="col-md-auto center-button">
+              <button class="round-green-button loading-button mb-3" data-bs-toggle="collapse" data-bs-target="#collapseExample<%= index %>" aria-expanded="false" aria-controls="collapseExample">Get Recipe</button>
+
+              <div class="collapse" id="collapseExample<%= index %>">
+                <div class="card card-body">
+
+                  <div class="container">
+                    <div class="text-center">
+                      <h2 class="section-heading text-uppercase">Recipes</h2>
+                      <h3 class="section-subheading text-muted">Select your recipe</h3>
+                    </div>
+
+                    <!-- Recipe items -->
+                    <div class="row">
+                      <%
+                      for (let [key_recipe, val_recipe] of filtered_recipe.entries()) {
+                        if (val.meal_id == val_recipe.meal_id) {
+                          count_each_meal_recipe[val.meal_id] += 1; %>
+                      <div class="col-lg-4 col-sm-6 mb-4">
+                        <div class="portfolio-item">
+                          <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal<%= val.meal_id %>_<%= count_each_meal_recipe[val.meal_id] %>">
+                            <div class="portfolio-hover">
+                              <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                            </div>
+                            <img class="img-fluid recipe-img-size" src="assets/img/recipe/meal<%= val.meal_id %>_<%= count_each_meal_recipe[val.meal_id] %>.jpg" alt="..." />
+                          </a>
+                          <div class="portfolio-caption">
+                            <div class="portfolio-caption-heading">
+                              <h6 class="mt-3 mb-3"><%= val_recipe.recipe_name %></h6>
+                            </div>
+                            <button class="round-green-button portfolio-link" data-bs-toggle="modal" href="#portfolioModal<%= val.meal_id %>_<%= count_each_meal_recipe[val.meal_id] %>">
+                              More Info
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="portfolio-modal modal fade" id="portfolioModal<%= val.meal_id %>_<%= count_each_meal_recipe[val.meal_id] %>" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                          <div class="modal-content">
+                            <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                            <div class="container">
+                              <div class="row justify-content-center">
+                                <div class="col-lg-10">
+                                  <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase"><%= val_recipe.recipe_name %></h2>
+
+                                    <img class="img-fluid d-block mx-auto recipe-img-details" src="assets/img/recipe/meal<%= val.meal_id %>_<%= count_each_meal_recipe[val.meal_id] %>.jpg" alt="..." />
+                                    <div class="row text-start mt-3">
+                                      <div class="col-lg-6">
+                                        <strong>Ingredients</strong>
+                                        <ul>
+                                          <% for (const [key, value] of Object.entries(val_recipe.ingredients)) {%>
+                                          <li><%= value %></li>
+                                          <% } %>
+                                        </ul>
+                                      </div>
+                                      <div class="col-lg-6">
+                                        <strong>Steps</strong>
+                                        <ol>
+                                          <% for (const [key, value] of Object.entries(val_recipe.steps)) {%>
+                                          <li><%= value %></li>
+                                          <% } %>
+                                        </ol>
+                                      </div>
+                                    </div>
+
+                                    <ul class="list-inline">
+                                      <li>
+                                        <strong>Serve Size:</strong>
+                                        <%= val_recipe.serve_size %>
+                                      </li>
+                                      <li>
+                                        <p><strong>Nutrition:</strong> <%= val_recipe.nutrition[0] %> calories <%= val_recipe.nutrition[1] %> g fat <%= val_recipe.nutrition[2] %> g protein and <%= val_recipe.nutrition[3] %> g carb</p>
+                                      </li>
+                                    </ul>
+                                    <button class="round-green-button" data-bs-dismiss="modal" type="button">Back</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <% }
+                      } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class='reference'>
+      <div class="container">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/22472280/" target="_blank">Diet Propotion Reference 1</a></li>
+          <li><a href="https://www.healthline.com/nutrition/best-macronutrient-ratio#macro-ratio" target="_blank">Diet Propotion Reference 2</a></li>
+          <li><a href="https://steelfitusa.com/blogs/health-and-wellness/calculate-tdee" target="_blank">TDEE calculation</a></li>
+          <li><a href="https://www.cdc.gov/obesity/adult/causes.html" target="_blank">Adult Obesity consequence</a></li>
+        </ul>
+        <br>
+        <p>
+          <a href='/report-input' style='color:#f37262'><u>Back to form page</u></a>
+        </p>
+      </div>
+    </section> -->
+
+</main>
+
+<%- include('partials/footer') %>

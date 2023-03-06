@@ -1,0 +1,139 @@
+<%- include('../partials/head_tag') %>
+
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Pathway to Recovery</title>
+
+<%- include('../partials/navbar') %>
+<!-- include css -->
+<link rel="stylesheet" href="/css/obese_info_added_custom.css">
+
+<!-- include css cursor to have collapsable blocks -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<main>
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Pathway to Recovery</h2>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/obese-info">General Info</a></li>
+          <li>Pathway to Recovery</li>
+        </ol>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <section class="intro-block">
+    <div class="container">
+
+      <div class="row justify-content-center">
+        <div class="col-md-10 offset-md-1 d-flex align-items-stretch one-cat-left">
+          <!--                    <div class="col-md-2 d-flex align-items-stretch color-block-white">test</div>-->
+          <div class="col-md-4 d-flex align-items-stretch">
+            <img src="/assets/img/treatment.png" class="obese-img">
+          </div>
+          <div class="col-md-6 d-flex align-items-stretch mt-4 mt-lg-0 one-cat-right">
+            <div class="icon-box" data-aos-delay="200">
+              <br><br>
+              <h3 align="center" style="font-weight: bold">Pathway to Recovery</h3>
+
+              <p align="center">The fundamental cause of obesity and overweight is an
+                energy imbalance between calories consumed and calories
+                expanded.However, the real causes are more complicated.
+                Better understanding the causes of obesity can help you
+                better treat obesity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 id="sub-section-header">Pick Up a Healthier Diet</h2>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- ======= Diet treatment block ======= -->
+  <section class="diet-treatment why-us">
+    <div class="container">
+      <div class="row" id="diet-treatment-div">
+        <div class="col-md-8 d-flex align-items-stretch one-cat-left justify-content-center">
+          <iframe src="https://www.youtube.com/embed/Chzhz58JZKs" frameborder="0" height="350" width="650">
+          </iframe>
+        </div>
+        <div class="col-md-4 align-items-stretch content">
+          <h3>Tips for eating habits:</h3>
+          <h5 class='font-400-weight'><span><i class="fa fa-check-circle-o" aria-hidden="true"></i></span> Examine your diet and see if you drink liquid calories</h5>
+          <h5 class='font-400-weight'><span><i class="fa fa-check-circle-o" aria-hidden="true"></i></span> Take your time when you eat</h5>
+          <h5 class='font-400-weight'><span><i class="fa fa-check-circle-o" aria-hidden="true"></i></span> Try to stick to foods that are high in protein and low in carbs</h5>
+          <h5 class='font-400-weight'><span><i class="fa fa-check-circle-o" aria-hidden="true"></i></span> Make sure that you eat enough vegetables</h5>
+        </div>
+      </div>
+      <br/>
+      <h2 style="text-align: center; font-family: Raleway, sans-serif">
+        Changing your eating habits can be hard, but WE ARE HERE to help you!
+      </h2>
+      <div class="text-center mt-4">
+        <form method="POST" action="/show-report" id='myform-diet'>
+          <a onclick="document.getElementById('myform-diet').submit(); return false;" class="round-green-button px-5" href="/show-report">Get My Diet Plan</a>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs no-margin-top">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 id="sub-section-header">Have More Physical Activities</h2>
+      </div>
+    </div>
+  </section><!-- End Breadcrumbs -->
+
+  <!-- ======= Exercise treatment block ======= -->
+  <section class="phy-activity">
+    <div class="container">
+      <h4 style="text-align: center; font-weight: normal" class='mb-4'>
+        Physical activity is key when managing obesity. It is best to <span style="color: #00805d">start simple and keep it manageable</span>.
+      </h4>
+      <div class="row justify-content-center">
+        <!-- <img src="/assets/img/obeseinfo/treatment/exercise.jpg" id="exercise-img"> -->
+        <iframe src="https://www.youtube.com/embed/LgCprEZ8-00" frameborder="0" class='video-size'></iframe>
+        <div class="overlay" id="exercise-overlay">
+          <h4 style="color: white; font-weight: normal; font-family: Raleway, sans-serif">Try to make your exercise plan to be:</h4>
+          <h3 style="font-weight: bold; color: #00805d; font-style: italic;  font-family: Raleway, sans-serif">Simple, Realistic, Happened and Fun!</h3>
+        </div>
+      </div>
+      <br>
+      <h2 style="text-align: center; font-family: Raleway, sans-serif">
+        Want to start to make your own exercise plan?
+      </h2>
+      <div class="text-center mt-4">
+        <form method="POST" action="/show-map" id='myform-map'>
+          <a onclick="document.getElementById('myform-map').submit(); return false;" class="round-green-button px-5" href='/show-map'>Get My Exercise Plan</a>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<script>
+
+</script>
+<%- include('../partials/footer') %>
