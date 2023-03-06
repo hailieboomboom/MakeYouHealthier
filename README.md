@@ -15,16 +15,16 @@ For Mac users: [Here](https://www.webucator.com/article/how-to-install-nodejs-on
 When you install database make sure that you install **MySQL Server** and **MySQL Workbence** and note down your database information because you need it later.
 
 Once you finish install the database, open MySQL Workbence and click add button.
-![1]()
+![1](https://github.com/hailieboomboom/MakeYouHealthier/blob/main/installation-img/1.jpg)
 
 For information here we use `Standard TCP/IP` as a connection method `Hostname` 127.0.0.1, `port` 3306 and `Username` is what you set during database installation.
-![2](https://github.com/hailielong/TA-32/blob/iteration2/installation-img/3.jpg)
+![2](https://github.com/hailieboomboom/MakeYouHealthier/blob/main/installation-img/3.jpg)
 
 When you connect to db, it will ask you the password that you fill during database installation step.
 
 Then add a new database and run 3 SQL files in `SQL` folder.
 Once finish make sure you have 3 tables like this:
-![3](https://github.com/hailielong/TA-32/blob/iteration2/installation-img/2.jpg)
+![3](https://github.com/hailieboomboom/MakeYouHealthier/blob/main/installation-img/2.jpg)
 
 ## 3. Install and Configure the server
 Download this Git repo and extract the zip file wherever you want. Next, open terminal/PowerShell and go to the folder that you just extracted the zip file. Then run the following command:
@@ -33,7 +33,7 @@ Download this Git repo and extract the zip file wherever you want. Next, open te
 
 After you run this command, you'll have folder structure like this.
 
-![4]()
+![4](https://github.com/hailieboomboom/MakeYouHealthier/blob/main/installation-img/4.jpg)
 
 Next, open you `.env.sample` with any text editor such as notepad.  You'll see information below:
 
@@ -60,4 +60,4 @@ You should see a message "Server start at port 3000" on your termianl/PowerShell
 
 Enjoy :)
 
-![5]()
+![5](https://github.com/hailieboomboom/MakeYouHealthier/blob/main/installation-img/5.jpg)
