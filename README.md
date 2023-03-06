@@ -15,7 +15,7 @@ For Mac users: [Here](https://www.webucator.com/article/how-to-install-nodejs-on
 When you install database make sure that you install **MySQL Server** and **MySQL Workbence** and note down your database information because you need it later.
 
 Once you finish install the database, open MySQL Workbence and click add button.
-![1](https://github.com/hailielong/TA-32/blob/iteration2/installation-img/1.jpg)
+![1]()
 
 For information here we use `Standard TCP/IP` as a connection method `Hostname` 127.0.0.1, `port` 3306 and `Username` is what you set during database installation.
 ![2](https://github.com/hailielong/TA-32/blob/iteration2/installation-img/3.jpg)
@@ -33,7 +33,7 @@ Download this Git repo and extract the zip file wherever you want. Next, open te
 
 After you run this command, you'll have folder structure like this.
 
-![4](https://github.com/hailielong/TA-32/blob/iteration2/installation-img/4.jpg)
+![4]()
 
 Next, open you `.env.sample` with any text editor such as notepad.  You'll see information below:
 
@@ -60,4 +60,4 @@ You should see a message "Server start at port 3000" on your termianl/PowerShell
 
 Enjoy :)
 
-![5](https://github.com/hailielong/TA-32/blob/iteration2/installation-img/5.jpg)
+![5]()
